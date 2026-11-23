@@ -154,7 +154,16 @@ class CloudflareTunnelManager:
                 raise RuntimeError("Tunnel Token wajib diisi untuk mode Named Tunnel.")
             cmd = [binary, "tunnel", "--no-autoupdate", *proto_args, "run", "--token", clean_token]
         else:
-            cmd = [binary, "tunnel", "--url", f"http://127.0.0.1:{port}", "--no-autoupdate", *proto_args]
+            cmd = [
+                binary,
+                "tunnel",
+                "--url",
+                f"http://127.0.0.1:{port}",
+                "--no-autoupdate",
+                "--config",
+                os.devnull,
+                *proto_args,
+            ]
 
         self.mode = clean_mode
         self.protocol = clean_proto
