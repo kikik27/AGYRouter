@@ -59,6 +59,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=$REPO_DIR
+Environment="HOME=$HOME"
 Environment="PATH=$UNIT_PATH"
 ExecStart=$VENV_PYTHON $REPO_DIR/run.py
 Restart=always
@@ -80,6 +81,11 @@ EOF
     echo "Cek status : systemctl --user status ${SERVICE_NAME}"
     echo "Lihat log  : journalctl --user -u ${SERVICE_NAME} -f"
 else
+    TARGET_USER="${SUDO_USER:-$USER}"
+    TARGET_HOME="$(getent passwd "$TARGET_USER" | cut -d: -f6)"
+    if [[ -z "$TARGET_HOME" ]]; then
+        TARGET_HOME="/home/$TARGET_USER"
+    fi
     UNIT_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
     TMP_FILE="$(mktemp)"
     cat > "$TMP_FILE" <<EOF
@@ -90,8 +96,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=${SUDO_USER:-$USER}
+User=${TARGET_USER}
 WorkingDirectory=$REPO_DIR
+Environment="HOME=${TARGET_HOME}"
 Environment="PATH=$UNIT_PATH"
 ExecStart=$VENV_PYTHON $REPO_DIR/run.py
 Restart=always
