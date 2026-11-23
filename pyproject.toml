@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agy-router"
+version = "2.0.0"
+description = "Official ToS-compliant local OpenAI-compatible AI gateway & router for Google Antigravity (agy CLI)"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "kikik27" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic>=2.8.0",
+    "python-dotenv>=1.0.0",
+    "httpx>=0.27.0",
+    "openai>=1.50.0",
+]
+
+[project.urls]
+Homepage = "https://kikik27.github.io/AGYRouter/"
+Repository = "https://github.com/kikik27/AGYRouter"
+Issues = "https://github.com/kikik27/AGYRouter/issues"
+
+[project.scripts]
+agy-router = "app.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["app*"]

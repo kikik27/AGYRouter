@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGYRouter — Official Local AI Gateway</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+
+    <!-- Initial Session Check Loader (prevents login flash for signed-in users) -->
+    <div id="boot-loader" class="boot-loader">
+        <div class="boot-spinner"></div>
+        <span>Memeriksa sesi AGYRouter...</span>
+    </div>
+
+    <!-- Login Gate -->
+    <div id="login-gate" class="login-gate hidden">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="brand-mark">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="login-title">AGYRouter</div>
+                    <div style="font-size:12px; color:var(--text-muted);">Official CLI Gateway Console</div>
+                </div>
+            </div>
+
+            <p class="login-subtitle">Masukkan password admin sekali saja (sesi aktif tersimpan 30 hari di browser Anda).</p>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password Admin</label>
+                    <input type="password" id="login-password" class="input" placeholder="Masukkan password..." required>
+                </div>
+                <div id="login-error" class="hidden" style="color:var(--danger); font-size:12.5px; margin-bottom:12px;"></div>
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:10px;">Masuk ke Dashboard</button>
+            </form>
+
+            <div class="login-hint">
+                Default password awal: <code class="mono" style="color:var(--text);">123456</code>. Anda dapat mengubahnya di menu <strong>Settings</strong> atau CLI <code class="mono">agy-router password</code>.
+                <div style="margin-top:10px; color:var(--text-dim);">
+                    Open Source by <a href="https://github.com/kikik27" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none;">kikik27</a> · Issues &amp; PRs welcome
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Shell -->
+    <div id="app-shell" class="app-shell hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-row">
+                    <div class="brand-mark">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="brand-name">AGYRouter</div>
+                        <div class="brand-sub">Official CLI Bridge</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cli-status-bar">
+                <span style="display:flex; align-items:center;">
+                    <span id="sidebar-cli-dot" class="status-dot"></span>
+                    <span id="sidebar-cli-label">CLI Ready</span>
+                </span>
+                <span id="sidebar-tunnel-status" class="mono" style="font-size:11px; color:var(--text-dim);">Local</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Gateway</div>
+                <button class="nav-item active" data-view="overview">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    Overview
+                </button>
+                <button class="nav-item" data-view="keys">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                    API Keys
+                </button>
+                <button class="nav-item" data-view="models">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.59 8.59L15.42 15.42"/><circle cx="18" cy="6" r="3"/><path d="M8.59 15.42L15.42 8.59"/></svg>
+                    Models &amp; Routing
+                </button>
+                <button class="nav-item" data-view="connect">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    Connect
+                </button>
+                <button class="nav-item" data-view="tunnel">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                    Tunnel &amp; Service
+                </button>
+
+                <div class="nav-section-label">Operasional</div>
+                <button class="nav-item" data-view="playground">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Playground
+                </button>
+                <button class="nav-item" data-view="logs">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Request Logs
+                </button>
+                <button class="nav-item" data-view="settings">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="nav-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sign Out
+                </button>
+                <div class="sidebar-credit">
+                    <span>Open Source · MIT</span>
+                    <a href="https://github.com/kikik27" target="_blank" rel="noopener noreferrer">kikik27</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="main-wrapper">
+            <div class="mobile-topbar">
+                <div class="brand-name">AGYRouter</div>
+                <button id="mobile-menu-btn" class="btn btn-sm">Menu</button>
+            </div>
+
+            <div id="default-pw-banner" class="warning-banner hidden">
+                <span>Anda masih menggunakan password default (<code class="mono">123456</code>). Ganti password demi keamanan gateway jika diakses via LAN atau tunnel.</span>
+                <div class="warning-banner-actions">
+                    <button id="banner-go-settings" class="btn btn-sm">Ganti Password</button>
+                    <button id="banner-dismiss" class="btn btn-sm">Tutup</button>
+                </div>
+            </div>
+
+            <main class="main-canvas">
+                <!-- VIEW 1: OVERVIEW -->
+                <section id="view-overview" class="view-section">
+                    <div class="page-header">
+                        <div>
+                            <h1>Overview</h1>
+                            <p class="page-subtitle">Ringkasan trafik gateway, konsumsi token, dan konektivitas resmi via agy.exe.</p>
+                        </div>
+                        <button id="ov-refresh-btn" class="btn">Refresh Data</button>
+                    </div>
+
+                    <div class="connect-strip">
+                        <div>
+                            <div class="strip-field-label">OpenAI Compatible Endpoint</div>
+                            <div class="strip-value-box">
+                                <span id="ov-endpoint-url">http://127.0.0.1:8000/v1</span>
+                                <button id="ov-copy-url-btn" class="btn btn-icon">Copy</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="strip-field-label">Active Default API Key</div>
+                            <div class="strip-value-box">
+                                <span id="ov-active-key">sk-agy-...</span>
+                                <button id="ov-copy-key-btn" class="btn btn-icon">Copy</button>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+                            <span class="pill ok">ToS-Compliant CLI Bridge</span>
+                            <span id="ov-tunnel-pill" class="pill hidden">Tunnel Online</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-strip">
+                        <div class="kpi-cell">
+                            <div class="kpi-label">Total Requests</div>
+                            <div id="kpi-total-reqs" class="kpi-value tabular">0</div>
+                            <div id="kpi-24h-sub" class="kpi-sub tabular">0 dalam 24 jam terakhir</div>
+                        </div>
+                        <div class="kpi-cell">
+                            <div class="kpi-label">Total Tokens</div>
+                            <div id="kpi-total-tokens" class="kpi-value tabular">0</div>
+                            <div id="kpi-tokens-sub" class="kpi-sub tabular">0 in / 0 out</div>
+                        </div>
+                        <div class="kpi-cell">
+                            <div class="kpi-label">Success Rate</div>
+                            <div id="kpi-success-rate" class="kpi-value tabular">100%</div>
+                            <div id="kpi-latency-sub" class="kpi-sub tabular">Rata-rata 0 ms</div>
+                        </div>
+                        <div class="kpi-cell">
+                            <div class="kpi-label">Active API Keys</div>
+                            <div id="kpi-active-keys" class="kpi-value tabular">1</div>
+                            <div id="kpi-keys-sub" class="kpi-sub">Auth API Key: Wajib</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Aktivitas Request (24 Jam)</span>
+                                <span class="panel-meta">Interval per jam</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="ov-traffic-chart"></div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Distribusi Model</span>
+                                <span class="panel-meta">Berdasarkan resolved model</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="ov-model-breakdown"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">Request Terbaru</span>
+                            <button id="ov-view-all-logs" class="btn btn-sm">Lihat Semua Log</button>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>API Key</th>
+                                        <th>Model</th>
+                                        <th>Status</th>
+                                        <th class="num">Tokens</th>
+                                        <th class="num">Latency</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ov-recent-logs"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: API KEYS -->
+                <section id="view-keys" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>API Keys</h1>
+                            <p class="page-subtitle">Buat dan kelola API key (<code class="mono">sk-agy-...</code>) untuk menghubungkan aplikasi eksternal atau agentic framework.</p>
+                        </div>
+                        <button id="create-key-btn" class="btn btn-primary">+ Generate API Key</button>
+                    </div>
+
+                    <div class="panel" style="margin-bottom:20px;">
+                        <div class="panel-body" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+                            <div>
+                                <div style="font-weight:600;">Wajibkan API Key untuk Akses Endpoint <code class="mono">/v1/*</code></div>
+                                <div style="font-size:12.5px; color:var(--text-muted);">Jika aktif, semua klien wajib mengirim header <code class="mono">Authorization: Bearer sk-agy-...</code> atau <code class="mono">x-api-key</code>.</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="keys-require-toggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nama Key</th>
+                                        <th>Token</th>
+                                        <th>Allowed Model</th>
+                                        <th class="num">Requests</th>
+                                        <th class="num">Tokens</th>
+                                        <th>Status</th>
+                                        <th class="num">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="keys-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: MODELS & ROUTING -->
+                <section id="view-models" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>Models &amp; Routing</h1>
+                            <p class="page-subtitle">Daftar model resmi AGY dan pemetaan alias otomatis (9Router-style) agar framework seperti CrewAI/Cursor langsung berjalan.</p>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button id="refresh-models-btn" class="btn">Sync dari AGY CLI</button>
+                            <button id="add-route-btn" class="btn btn-primary">+ Tambah Alias Route</button>
+                        </div>
+                    </div>
+
+                    <div class="grid-equal">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Model Resmi Antigravity (AGY)</span>
+                                <span class="panel-meta">Via agy.exe</span>
+                            </div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Model ID</th>
+                                            <th>Status</th>
+                                            <th class="num">Uji Coba</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="models-native-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Custom Alias Routing</span>
+                                <span class="panel-meta">Alias Klien → Target AGY</span>
+                            </div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Alias Klien</th>
+                                            <th>Target AGY</th>
+                                            <th>Catatan</th>
+                                            <th class="num">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="routes-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: CONNECT (INTEGRATION CENTER) -->
+                <section id="view-connect" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>Connect &amp; Integration Center</h1>
+                            <p class="page-subtitle">Salin konfigurasi siap pakai untuk menghubungkan AGYRouter ke aplikasi lokal, perangkat LAN, atau Cloudflare Tunnel.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel" style="margin-bottom:20px;">
+                        <div class="panel-body">
+                            <div class="grid-equal" style="margin-bottom:0;">
+                                <div class="form-group">
+                                    <label class="form-label">Pilih API Key</label>
+                                    <select id="connect-key-select" class="select mono"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Pilih Model</label>
+                                    <select id="connect-model-select" class="select mono"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:6px; margin-bottom:10px;">
+                                <label class="form-label">Mode Alamat Server (Base URL)</label>
+                                <div style="display:flex; flex-wrap:wrap; gap:18px; margin-top:4px;">
+                                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                                        <input type="radio" name="connect-host-mode" value="local" checked>
+                                        <span>Localhost (127.0.0.1)</span>
+                                    </label>
+                                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                                        <input type="radio" name="connect-host-mode" value="lan">
+                                        <span id="connect-lan-label">LAN IP</span>
+                                    </label>
+                                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                                        <input type="radio" name="connect-host-mode" value="tunnel">
+                                        <span id="connect-tunnel-label">Cloudflare Tunnel (Public HTTPS)</span>
+                                    </label>
+                                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                                        <input type="radio" name="connect-host-mode" value="custom">
+                                        <span>Custom URL</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="connect-custom-url-wrap" class="form-group hidden">
+                                <label class="form-label">URL Publik / Tunnel</label>
+                                <input type="text" id="connect-custom-url" class="input mono" placeholder="https://my-agy-gateway.trycloudflare.com">
+                            </div>
+
+                            <div class="strip-value-box" style="margin-top:8px;">
+                                <span id="connect-resolved-url">http://127.0.0.1:8000/v1</span>
+                                <button id="connect-copy-url-btn" class="btn btn-sm">Copy Base URL</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="tabs" id="connect-tabs">
+                            <button class="tab-btn active" data-tab="python">Python (OpenAI SDK)</button>
+                            <button class="tab-btn" data-tab="langchain">LangChain / CrewAI</button>
+                            <button class="tab-btn" data-tab="cursor">Cursor / Cline / Continue</button>
+                            <button class="tab-btn" data-tab="nodejs">Node.js / TypeScript</button>
+                            <button class="tab-btn" data-tab="curl">cURL</button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="code-block-wrap">
+                                <div class="code-block-header">
+                                    <span>Siap dijalankan — token API key Anda sudah terisi otomatis</span>
+                                    <button id="connect-copy-code-btn" class="btn btn-sm btn-primary">Copy Snippet</button>
+                                </div>
+                                <pre id="connect-code-pre"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4B: TUNNEL & SERVICE -->
+                <section id="view-tunnel" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>Tunnel &amp; Background Service</h1>
+                            <p class="page-subtitle">Ekspos AGYRouter ke internet gratis via Cloudflare Tunnel dan kelola service 24/7 otomatis sesuai perangkat Anda.</p>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button id="tunnel-refresh-btn" class="btn">Refresh Status</button>
+                            <button id="tunnel-install-btn" class="btn btn-primary hidden">Install cloudflared</button>
+                        </div>
+                    </div>
+
+                    <div id="tunnel-security-warn" class="warning-banner hidden" style="border-radius:8px; margin-bottom:18px; border:1px solid rgba(245, 158, 11, 0.3);">
+                        <span>Peringatan Keamanan: Pastikan <strong>Wajib API Key</strong> aktif dan <strong>password default (123456)</strong> sudah diganti sebelum membuka tunnel publik!</span>
+                    </div>
+
+                    <div class="grid-equal">
+                        <!-- Live Status & Control -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Cloudflare Tunnel Status</span>
+                                <span id="tunnel-status-pill" class="pill">Offline</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="tunnel-error-box" class="alert-danger hidden"></div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Binary <code class="mono">cloudflared</code></label>
+                                    <div id="tunnel-binary-info" class="mono" style="font-size:12px; color:var(--text-muted);">Memeriksa...</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Public HTTPS URL</label>
+                                    <div class="strip-value-box">
+                                        <span id="tunnel-public-url">—</span>
+                                        <button id="tunnel-copy-public-btn" class="btn btn-icon">Copy</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Public OpenAI Base URL (<code class="mono">/v1</code>)</label>
+                                    <div class="strip-value-box">
+                                        <span id="tunnel-openai-url">—</span>
+                                        <button id="tunnel-copy-v1-btn" class="btn btn-icon">Copy</button>
+                                    </div>
+                                </div>
+
+                                <div class="grid-equal" style="margin-bottom:0; gap:12px;">
+                                    <div class="form-group">
+                                        <label class="form-label">Mode Tunnel</label>
+                                        <select id="tunnel-mode-select" class="select">
+                                            <option value="quick">Quick Tunnel (Gratis, Tanpa Akun)</option>
+                                            <option value="token">Named Tunnel (Cloudflare Token)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Transport Protocol</label>
+                                        <select id="tunnel-protocol-select" class="select">
+                                            <option value="http2">HTTP/2 (Rekomendasi ISP Lokal)</option>
+                                            <option value="auto">Auto (QUIC / HTTP2)</option>
+                                            <option value="quic">QUIC (UDP 7844)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="tunnel-token-wrap" class="hidden" style="margin-top:6px;">
+                                    <div class="form-group">
+                                        <label class="form-label">Cloudflare Tunnel Token</label>
+                                        <input type="password" id="tunnel-token-input" class="input mono" placeholder="eyJhIjoi...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Custom Domain URL (Opsional, untuk display/Connect)</label>
+                                        <input type="text" id="tunnel-custom-url-input" class="input mono" placeholder="https://agy.domainanda.com">
+                                    </div>
+                                </div>
+
+                                <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-top:1px solid var(--border); margin-top:6px;">
+                                    <div>
+                                        <div style="font-weight:500;">Auto-start Tunnel saat server menyala</div>
+                                        <div style="font-size:12px; color:var(--text-muted);">Cocok dipadukan dengan service 24/7.</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="tunnel-autostart-toggle">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div style="display:flex; gap:10px; margin-top:14px;">
+                                    <button id="tunnel-start-btn" class="btn btn-primary">Start Tunnel</button>
+                                    <button id="tunnel-stop-btn" class="btn btn-danger" disabled>Stop Tunnel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Logs -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Log Proses <code class="mono">cloudflared</code></span>
+                                <span class="panel-meta">60 baris terakhir</span>
+                            </div>
+                            <div class="panel-body">
+                                <pre id="tunnel-logs-pre" class="tunnel-log-box">Tunnel belum dijalankan.</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Auto-Detected Device & 1-Click 24/7 Service -->
+                    <div class="panel" style="margin-top:20px;">
+                        <div class="panel-header">
+                            <span class="panel-title">Perangkat Terdeteksi &amp; Background Service 24/7</span>
+                            <span id="svc-state-pill" class="pill">Checking...</span>
+                        </div>
+                        <div class="panel-body">
+                            <div id="svc-device-grid" class="device-grid">
+                                <div class="device-pill-box">
+                                    <div class="device-pill-label">Sistem Operasi</div>
+                                    <div id="dev-os" class="device-pill-val">—</div>
+                                </div>
+                                <div class="device-pill-box">
+                                    <div class="device-pill-label">Arsitektur / Host</div>
+                                    <div id="dev-arch" class="device-pill-val">—</div>
+                                </div>
+                                <div class="device-pill-box">
+                                    <div class="device-pill-label">Service Backend</div>
+                                    <div id="dev-backend" class="device-pill-val mono">—</div>
+                                </div>
+                                <div class="device-pill-box">
+                                    <div class="device-pill-label">LAN Endpoint</div>
+                                    <div id="dev-lan" class="device-pill-val mono">—</div>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:16px;">
+                                <button id="svc-install-btn" class="btn btn-primary">Install &amp; Aktifkan Service 24/7</button>
+                                <button id="svc-uninstall-btn" class="btn btn-danger">Hapus Service 24/7</button>
+                                <span style="font-size:12.5px; color:var(--text-muted);">Atau gunakan CLI langsung di terminal:</span>
+                            </div>
+
+                            <div class="code-block-wrap">
+                                <div class="code-block-header">
+                                    <span>Perintah <code class="mono">agy-router</code> CLI (Auto-Detect Device)</span>
+                                    <button id="cli-copy-btn" class="btn btn-sm">Copy CLI</button>
+                                </div>
+                                <pre id="cli-commands-pre"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 5: PLAYGROUND -->
+                <section id="view-playground" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>Playground</h1>
+                            <p class="page-subtitle">Uji chat real-time ke <code class="mono">/v1/chat/completions</code> dengan rendering Markdown, System Prompt, Stop, &amp; Regenerate.</p>
+                        </div>
+                        <button id="pg-clear-btn" class="btn">Sesi Baru</button>
+                    </div>
+
+                    <div class="playground-layout">
+                        <div class="panel playground-sidebar">
+                            <div class="form-group">
+                                <label class="form-label">API Key Pengirim</label>
+                                <select id="pg-key-select" class="select mono"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Model</label>
+                                <select id="pg-model-select" class="select mono"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Reasoning Effort</label>
+                                <select id="pg-effort-select" class="select">
+                                    <option value="">Default</option>
+                                    <option value="low">low</option>
+                                    <option value="medium">medium</option>
+                                    <option value="high">high</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">System Prompt (Opsional)</label>
+                                <textarea id="pg-system-prompt" class="textarea" rows="3" placeholder="contoh: Jawab ringkas dalam bahasa Indonesia..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Session ID (Multi-Turn)</label>
+                                <input type="text" id="pg-session-id" class="input mono">
+                            </div>
+                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; margin-top:4px;">
+                                <input type="checkbox" id="pg-stream-toggle" checked>
+                                <span>Streaming SSE Real-Time</span>
+                            </label>
+                        </div>
+
+                        <div class="playground-chat">
+                            <div class="playground-topbar">
+                                <span id="pg-active-info" class="mono">Model: gemini-3.8-flash-high</span>
+                                <span id="pg-turn-count" class="tabular">0 pesan</span>
+                            </div>
+                            <div id="pg-messages" class="playground-messages">
+                                <div id="pg-empty-state" class="pg-empty-state">
+                                    <h3>Mulai Uji Percakapan</h3>
+                                    <p>Semua pesan dikirim lewat endpoint resmi OpenAI-compatible menggunakan API key Anda.</p>
+                                    <div class="starter-chips">
+                                        <button type="button" class="starter-chip" data-prompt="Halo! Jelaskan dalam 3 poin bagaimana AGYRouter menjaga kepatuhan ToS.">Jelaskan cara kerja AGYRouter</button>
+                                        <button type="button" class="starter-chip" data-prompt="Buatkan contoh script Python async httpx untuk memanggil OpenAI-compatible API dengan streaming SSE.">Contoh kode Python SSE</button>
+                                        <button type="button" class="starter-chip" data-prompt="Hitung 17 * 24 dan jelaskan langkah singkatnya.">Tes logika cepat</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="playground-composer">
+                                <textarea id="pg-input" class="textarea" placeholder="Ketik pesan... (Enter kirim, Shift+Enter baris baru)"></textarea>
+                                <button id="pg-stop-btn" class="btn btn-danger hidden">Stop</button>
+                                <button id="pg-send-btn" class="btn btn-primary">Kirim</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 6: LOGS -->
+                <section id="view-logs" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>Request Logs</h1>
+                            <p class="page-subtitle">Inspeksi seluruh trafik API yang masuk, status respons, token usage, dan latency eksekusi CLI.</p>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <label style="display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-muted); cursor:pointer;">
+                                <input type="checkbox" id="logs-autorefresh-toggle">
+                                <span>Auto-refresh (5s)</span>
+                            </label>
+                            <button id="logs-refresh-btn" class="btn btn-sm">Refresh</button>
+                            <button id="logs-clear-btn" class="btn btn-sm btn-danger">Bersihkan Log</button>
+                        </div>
+                    </div>
+
+                    <div class="panel" style="margin-bottom:16px;">
+                        <div class="panel-body" style="display:flex; gap:12px; flex-wrap:wrap; padding:12px 16px;">
+                            <select id="logs-filter-key" class="select" style="max-width:240px;">
+                                <option value="">Semua API Key</option>
+                            </select>
+                            <select id="logs-filter-status" class="select" style="max-width:180px;">
+                                <option value="">Semua Status</option>
+                                <option value="ok">Sukses (2xx)</option>
+                                <option value="error">Error (4xx / 5xx)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>API Key</th>
+                                        <th>Model</th>
+                                        <th>Mode</th>
+                                        <th>Status</th>
+                                        <th class="num">Tokens</th>
+                                        <th class="num">Latency</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="logs-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 7: SETTINGS -->
+                <section id="view-settings" class="view-section hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1>Settings</h1>
+                            <p class="page-subtitle">Konfigurasi keamanan dashboard, perilaku gateway default, dan diagnostik sistem.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid-equal">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Preferensi Gateway</span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="form-label">Default Fallback Model</label>
+                                    <select id="settings-default-model" class="select mono"></select>
+                                </div>
+                                <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-top:1px solid var(--border);">
+                                    <div>
+                                        <div style="font-weight:500;">Wajib API Key</div>
+                                        <div style="font-size:12px; color:var(--text-muted);">Tolak request ke /v1/* tanpa key valid.</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="settings-require-key">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-top:1px solid var(--border); margin-bottom:14px;">
+                                    <div>
+                                        <div style="font-weight:500;">Izinkan Eksekusi Tool AGY</div>
+                                        <div style="font-size:12px; color:var(--text-muted);">Aktifkan flag --dangerously-skip-permissions (hati-hati).</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="settings-allow-tools">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <button id="settings-save-btn" class="btn btn-primary">Simpan Pengaturan</button>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="panel-title">Keamanan Dashboard (Ubah Password)</span>
+                            </div>
+                            <div class="panel-body">
+                                <form id="settings-pw-form">
+                                    <div class="form-group">
+                                        <label class="form-label">Password Saat Ini</label>
+                                        <input type="password" id="pw-current" class="input" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Password Baru (min. 4 karakter)</label>
+                                        <input type="password" id="pw-new" class="input" minlength="4" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Konfirmasi Password Baru</label>
+                                        <input type="password" id="pw-confirm" class="input" minlength="4" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Perbarui Password</button>
+                                </form>
+
+                                <div style="margin-top:22px; padding-top:16px; border-top:1px solid var(--border);">
+                                    <div style="font-weight:600; margin-bottom:8px;">Diagnostik CLI &amp; Jaringan</div>
+                                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">Binary AGY: <code id="diag-binary" class="mono" style="color:var(--text);">—</code></div>
+                                    <div style="font-size:12px; color:var(--text-muted);">Binding Host: <code id="diag-host" class="mono" style="color:var(--text);">—</code></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="oss-card">
+                        <div>
+                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                                <strong style="font-size:14.5px;">Open Source &amp; Kontribusi</strong>
+                                <span class="pill ok">MIT License</span>
+                            </div>
+                            <div style="font-size:13px; color:var(--text-muted);">
+                                Dikembangkan oleh <a href="https://github.com/kikik27" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:600; text-decoration:none;">github.com/kikik27</a>. Menemukan bug atau punya ide fitur? Langsung <strong>Open Issue</strong> atau kirim <strong>Pull Request (PR)</strong>!
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <a href="https://github.com/kikik27/AGYRouter" target="_blank" rel="noopener noreferrer" class="btn">GitHub Repo</a>
+                            <a href="https://github.com/kikik27/AGYRouter/issues" target="_blank" rel="noopener noreferrer" class="btn">Open Issue</a>
+                            <a href="https://github.com/kikik27/AGYRouter/pulls" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Pull Request</a>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal-backdrop" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-title" style="font-size:15px; font-weight:600;">Modal</h3>
+                <button id="modal-close-x" class="btn btn-icon">✕</button>
+            </div>
+            <div id="modal-body" class="modal-body"></div>
+            <div id="modal-footer" class="modal-footer"></div>
+        </div>
+    </div>
+
+    <!-- Toasts -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

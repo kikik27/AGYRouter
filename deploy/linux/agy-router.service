@@ -1,0 +1,18 @@
+[Unit]
+Description=AGY Router - Official Local AI Gateway (by kikik27)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__REPO_DIR__
+Environment="PATH=__PATH__"
+ExecStart=__VENV_PYTHON__ __REPO_DIR__/run.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

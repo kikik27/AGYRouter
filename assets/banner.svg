@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" fill="none">
+  <defs>
+    <radialGradient id="glowLeft" cx="22%" cy="50%" r="48%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#0b0d11" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowRight" cx="85%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#0b0d11" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="#232732"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="420" rx="20" fill="#0b0d11"/>
+  <rect width="1280" height="420" rx="20" fill="url(#dotGrid)" opacity="0.75"/>
+  <rect width="1280" height="420" rx="20" fill="url(#glowLeft)"/>
+  <rect width="1280" height="420" rx="20" fill="url(#glowRight)"/>
+  <rect x="1.5" y="1.5" width="1277" height="417" rx="18.5" stroke="#232732" stroke-width="3"/>
+
+  <!-- Subtle Right Routing Topology -->
+  <g opacity="0.55">
+    <path d="M960 110 H1065 L1120 165 H1210" stroke="#232732" stroke-width="2"/>
+    <path d="M940 210 H1210" stroke="#10b981" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="6 6"/>
+    <path d="M960 310 H1065 L1120 255 H1210" stroke="#232732" stroke-width="2"/>
+    <circle cx="960" cy="110" r="5" fill="#12151c" stroke="#323846" stroke-width="2"/>
+    <circle cx="940" cy="210" r="6" fill="#0b0d11" stroke="#10b981" stroke-width="2.5"/>
+    <circle cx="960" cy="310" r="5" fill="#12151c" stroke="#323846" stroke-width="2"/>
+    <circle cx="1120" cy="165" r="4" fill="#10b981"/>
+    <circle cx="1120" cy="255" r="4" fill="#34d399"/>
+    <circle cx="1210" cy="210" r="5" fill="#34d399"/>
+  </g>
+
+  <!-- Logo Emblem Card -->
+  <g transform="translate(96, 118)">
+    <rect x="0" y="0" width="184" height="184" rx="40" fill="#12151c" stroke="#232732" stroke-width="3"/>
+    <circle cx="92" cy="92" r="60" stroke="#10b981" stroke-opacity="0.28" stroke-width="3" stroke-dasharray="8 8"/>
+    <path d="M92 34L142 62V122L92 150L42 122V62L92 34Z" stroke="#10b981" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M92 58L120 74V106L92 122L64 106V74L92 58Z" fill="#10b981" fill-opacity="0.18" stroke="#34d399" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M92 34V58M142 62L120 74M42 62L64 74M92 122V150" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="92" cy="90" r="9" fill="#34d399"/>
+  </g>
+
+  <!-- Brand Typography -->
+  <g transform="translate(324, 152)">
+    <rect x="0" y="-32" width="244" height="28" rx="14" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-opacity="0.35" stroke-width="1.5"/>
+    <circle cx="16" cy="-18" r="4" fill="#10b981"/>
+    <text x="29" y="-13" fill="#34d399" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600" letter-spacing="0.4">100% ToS-Compliant CLI Bridge</text>
+
+    <text x="0" y="54" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="68" font-weight="700" letter-spacing="-1.5">AGYRouter</text>
+
+    <text x="2" y="96" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="400">Official Local OpenAI-Compatible AI Gateway for Antigravity CLI</text>
+
+    <g transform="translate(0, 128)">
+      <rect x="0" y="0" width="184" height="32" rx="6" fill="#12151c" stroke="#232732" stroke-width="1.5"/>
+      <text x="92" y="20" text-anchor="middle" fill="#cbd5e1" font-family="Consolas, monospace" font-size="13">/v1/chat/completions</text>
+
+      <rect x="198" y="0" width="198" height="32" rx="6" fill="#12151c" stroke="#232732" stroke-width="1.5"/>
+      <text x="297" y="20" text-anchor="middle" fill="#cbd5e1" font-family="Consolas, monospace" font-size="13">Cloudflare Free Tunnel</text>
+
+      <rect x="410" y="0" width="176" height="32" rx="6" fill="#12151c" stroke="#232732" stroke-width="1.5"/>
+      <text x="498" y="20" text-anchor="middle" fill="#cbd5e1" font-family="Consolas, monospace" font-size="13">24/7 OS Service CLI</text>
+    </g>
+  </g>
+</svg>

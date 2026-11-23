@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGYRouter — Official OpenAI-Compatible Local AI Gateway for Antigravity CLI</title>
+  <meta name="description" content="Official, 100% ToS-compliant OpenAI-compatible local AI gateway and router for Google Antigravity CLI (agy). Multi-API keys, delta-turn efficiency, Cloudflare Free Tunnel, and 24/7 OS services." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kikik27.github.io/AGYRouter/" />
+  <meta property="og:title" content="AGYRouter — Official OpenAI-Compatible Local AI Gateway for Antigravity CLI" />
+  <meta property="og:description" content="Turn your official local Google Antigravity CLI (agy) into a production OpenAI-compatible gateway with multi-API keys, Cloudflare Free Tunnel, and 24/7 OS services." />
+  <meta property="og:image" content="https://kikik27.github.io/AGYRouter/banner.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AGYRouter — Official Local AI Gateway for Antigravity CLI" />
+  <meta name="twitter:description" content="100% ToS-compliant OpenAI gateway for Google Antigravity CLI with 9Router-style dashboard, Cloudflare Free Tunnel, and cross-OS CLI." />
+  <meta name="twitter:image" content="https://kikik27.github.io/AGYRouter/banner.png" />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="AGYRouter Home">
+        <img src="logo.svg" alt="AGYRouter Logo" class="brand-logo" width="32" height="32" />
+        <span class="brand-name">AGYRouter</span>
+        <span class="version-tag">v2.0.0</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#preview">Preview</a>
+        <a href="#features">CLI &amp; SDKs</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#quickstart">Quick Start</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://github.com/kikik27/AGYRouter" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero Band -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="eyebrow-pill">
+            <span class="status-dot"></span>
+            <span>OPEN SOURCE &middot; MIT LICENSE &middot; 100% TOS COMPLIANT</span>
+          </div>
+
+          <h1>One local gateway<br />for Antigravity CLI.</h1>
+
+          <p class="hero-subtitle">
+            Turn your official local Google Antigravity CLI (<code>agy</code>) into an OpenAI-compatible HTTP API server (<code>http://127.0.0.1:8000/v1</code>) with multi-API keys, delta-turn token optimization, Cloudflare Free Tunnel, and 24/7 OS background services.
+          </p>
+
+          <div class="hero-cta-row">
+            <a href="#quickstart" class="btn btn-primary">
+              <span>Quick Start</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#preview" class="btn btn-secondary">Explore Preview</a>
+            <a href="https://github.com/kikik27/AGYRouter" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+              View on GitHub
+            </a>
+          </div>
+
+          <div class="hero-install-box">
+            <div class="install-bar-top">
+              <div class="os-pills" role="tablist" aria-label="Operating System">
+                <button type="button" class="os-pill active" data-hero-os="windows" role="tab" aria-selected="true">Windows</button>
+                <button type="button" class="os-pill" data-hero-os="unix" role="tab" aria-selected="false">Linux &amp; macOS</button>
+              </div>
+              <span class="tos-note">Zero scraping &middot; Executes official <code>agy</code> binary only</span>
+            </div>
+            <div class="install-cmd-row">
+              <span class="cmd-prompt">$</span>
+              <code id="hero-install-cmd">git clone https://github.com/kikik27/AGYRouter.git &amp;&amp; cd AGYRouter &amp;&amp; .\agy-router.bat setup</code>
+              <button type="button" class="copy-btn" data-copy-target="hero-install-cmd" aria-label="Copy install command">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Dashboard Preview -->
+    <section id="preview" class="section-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">INTERACTIVE CONSOLE PREVIEW</span>
+          <h2>9Router-style control plane, built in.</h2>
+          <p>Click through the tabs below to preview the actual local web dashboard served at <code>http://127.0.0.1:8000/</code>.</p>
+        </div>
+
+        <div class="browser-frame" data-ui>
+          <div class="browser-chrome">
+            <div class="browser-dots" aria-hidden="true">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-amber"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="browser-url">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>http://127.0.0.1:8000</span>
+            </div>
+            <div class="browser-badge">
+              <span class="status-dot"></span>
+              <span>agy CLI Connected</span>
+            </div>
+          </div>
+
+          <div class="dash-shell">
+            <aside class="dash-sidebar" aria-label="Dashboard Views">
+              <div class="dash-brand">
+                <img src="logo.svg" alt="" width="22" height="22" />
+                <span>AGYRouter</span>
+              </div>
+
+              <div class="dash-nav-group">
+                <button type="button" class="dash-nav-item active" data-dash-tab="overview">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+                    <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+                    <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+                  </svg>
+                  <span>Overview</span>
+                </button>
+                <button type="button" class="dash-nav-item" data-dash-tab="keys">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                  </svg>
+                  <span>API Keys</span>
+                </button>
+                <button type="button" class="dash-nav-item" data-dash-tab="tunnel">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                  <span>Tunnel &amp; Service</span>
+                </button>
+                <button type="button" class="dash-nav-item" data-dash-tab="playground">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Playground</span>
+                </button>
+              </div>
+
+              <div class="dash-sidebar-foot">
+                <div class="session-pill">Auth: 30d Persistent</div>
+                <div class="session-sub">MIT &middot; kikik27</div>
+              </div>
+            </aside>
+
+            <div class="dash-stage">
+              <!-- Tab 1: Overview -->
+              <div class="dash-panel active" data-dash-panel="overview">
+                <div class="dash-panel-head">
+                  <div>
+                    <h3>Gateway Overview</h3>
+                    <p>Local-first OpenAI bridge powered by official Antigravity CLI</p>
+                  </div>
+                  <span class="pill-ok">HTTP/2 &amp; SSE Ready</span>
+                </div>
+
+                <div class="kpi-grid">
+                  <div class="kpi-card">
+                    <span class="kpi-label">Gateway Status</span>
+                    <strong class="kpi-value text-emerald">Online</strong>
+                    <span class="kpi-meta">127.0.0.1:8000/v1</span>
+                  </div>
+                  <div class="kpi-card">
+                    <span class="kpi-label">Delta-Turn Mode</span>
+                    <strong class="kpi-value">Active</strong>
+                    <span class="kpi-meta">--conversation reuse</span>
+                  </div>
+                  <div class="kpi-card">
+                    <span class="kpi-label">Model Aliases</span>
+                    <strong class="kpi-value">6 Routes</strong>
+                    <span class="kpi-meta">gpt-4o &rarr; agy</span>
+                  </div>
+                  <div class="kpi-card">
+                    <span class="kpi-label">Auth Session</span>
+                    <strong class="kpi-value">30 Days</strong>
+                    <span class="kpi-meta">HMAC-SHA256 Cookie</span>
+                  </div>
+                </div>
+
+                <div class="dash-split">
+                  <div class="chart-card">
+                    <div class="card-subhead">
+                      <span>24h Local Request Activity (Sample Preview)</span>
+                      <span class="mono-dim">SQLite WAL</span>
+                    </div>
+                    <svg class="activity-svg" viewBox="0 0 420 110" role="img" aria-label="Sample 24 hour gateway activity chart">
+                      <line x1="0" y1="25" x2="420" y2="25" stroke="#232938" stroke-dasharray="3 3" />
+                      <line x1="0" y1="55" x2="420" y2="55" stroke="#232938" stroke-dasharray="3 3" />
+                      <line x1="0" y1="85" x2="420" y2="85" stroke="#232938" />
+                      <rect x="8" y="64" width="12" height="21" rx="2" fill="#10b981" fill-opacity="0.45" />
+                      <rect x="26" y="72" width="12" height="13" rx="2" fill="#10b981" fill-opacity="0.35" />
+                      <rect x="44" y="60" width="12" height="25" rx="2" fill="#10b981" fill-opacity="0.5" />
+                      <rect x="62" y="52" width="12" height="33" rx="2" fill="#10b981" fill-opacity="0.6" />
+                      <rect x="80" y="38" width="12" height="47" rx="2" fill="#10b981" fill-opacity="0.75" />
+                      <rect x="98" y="45" width="12" height="40" rx="2" fill="#10b981" fill-opacity="0.7" />
+                      <rect x="116" y="28" width="12" height="57" rx="2" fill="#10b981" fill-opacity="0.85" />
+                      <rect x="134" y="34" width="12" height="51" rx="2" fill="#10b981" fill-opacity="0.8" />
+                      <rect x="152" y="20" width="12" height="65" rx="2" fill="#10b981" />
+                      <rect x="170" y="42" width="12" height="43" rx="2" fill="#10b981" fill-opacity="0.75" />
+                      <rect x="188" y="30" width="12" height="55" rx="2" fill="#10b981" fill-opacity="0.85" />
+                      <rect x="206" y="16" width="12" height="69" rx="2" fill="#10b981" />
+                      <rect x="224" y="24" width="12" height="61" rx="2" fill="#10b981" fill-opacity="0.9" />
+                      <rect x="242" y="48" width="12" height="37" rx="2" fill="#10b981" fill-opacity="0.65" />
+                      <rect x="260" y="35" width="12" height="50" rx="2" fill="#10b981" fill-opacity="0.8" />
+                      <rect x="278" y="22" width="12" height="63" rx="2" fill="#10b981" />
+                      <rect x="296" y="39" width="12" height="46" rx="2" fill="#10b981" fill-opacity="0.75" />
+                      <rect x="314" y="27" width="12" height="58" rx="2" fill="#10b981" fill-opacity="0.9" />
+                      <rect x="332" y="18" width="12" height="67" rx="2" fill="#10b981" />
+                      <rect x="350" y="40" width="12" height="45" rx="2" fill="#10b981" fill-opacity="0.75" />
+                      <rect x="368" y="32" width="12" height="53" rx="2" fill="#10b981" fill-opacity="0.85" />
+                      <rect x="386" y="24" width="12" height="61" rx="2" fill="#10b981" />
+                      <text x="8" y="102" fill="#64748b" font-size="9" font-family="JetBrains Mono, monospace">00:00</text>
+                      <text x="192" y="102" fill="#64748b" font-size="9" font-family="JetBrains Mono, monospace">12:00</text>
+                      <text x="372" y="102" fill="#64748b" font-size="9" font-family="JetBrains Mono, monospace">Now</text>
+                    </svg>
+                  </div>
+
+                  <div class="quick-connect-card">
+                    <div class="card-subhead">
+                      <span>Quick Connect Credentials</span>
+                      <span class="mono-dim">OpenAI v1</span>
+                    </div>
+                    <div class="cred-row">
+                      <span class="cred-label">Base URL</span>
+                      <div class="cred-val-wrap">
+                        <code id="demo-base-url">http://127.0.0.1:8000/v1</code>
+                        <button type="button" class="mini-btn" data-copy-target="demo-base-url">Copy</button>
+                      </div>
+                    </div>
+                    <div class="cred-row">
+                      <span class="cred-label">Sample Key</span>
+                      <div class="cred-val-wrap">
+                        <code id="demo-overview-key" data-secret="sk-agy-demo-98a4f2c10e7b">sk-agy-demo-••••••••••</code>
+                        <button type="button" class="mini-btn" data-copy-secret="demo-overview-key">Copy</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 2: API Keys -->
+              <div class="dash-panel" data-dash-panel="keys">
+                <div class="dash-panel-head">
+                  <div>
+                    <h3>Multi-API Key Management</h3>
+                    <p>Issue isolated <code>sk-agy-...</code> credentials per IDE, framework, or agent</p>
+                  </div>
+                  <span class="pill-neutral">SQLite Backed</span>
+                </div>
+
+                <div class="table-wrap">
+                  <table class="demo-table">
+                    <thead>
+                      <tr>
+                        <th>Label</th>
+                        <th>Key Prefix / Secret</th>
+                        <th>Status</th>
+                        <th class="text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Cursor IDE</strong></td>
+                        <td><code class="key-cell" data-full-key="sk-agy-cur-7f12e84a90b1">sk-agy-cur-••••••••</code></td>
+                        <td><span class="pill-ok">Active</span></td>
+                        <td class="text-right">
+                          <button type="button" class="mini-btn toggle-key-btn">Reveal</button>
+                          <button type="button" class="mini-btn copy-key-btn">Copy</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><strong>CrewAI Multi-Agent</strong></td>
+                        <td><code class="key-cell" data-full-key="sk-agy-crw-3b98d12c5e44">sk-agy-crw-••••••••</code></td>
+                        <td><span class="pill-ok">Active</span></td>
+                        <td class="text-right">
+                          <button type="button" class="mini-btn toggle-key-btn">Reveal</button>
+                          <button type="button" class="mini-btn copy-key-btn">Copy</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><strong>LangGraph Pipeline</strong></td>
+                        <td><code class="key-cell" data-full-key="sk-agy-lgp-5a01f67e22d9">sk-agy-lgp-••••••••</code></td>
+                        <td><span class="pill-ok">Active</span></td>
+                        <td class="text-right">
+                          <button type="button" class="mini-btn toggle-key-btn">Reveal</button>
+                          <button type="button" class="mini-btn copy-key-btn">Copy</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Tab 3: Tunnel & Service -->
+              <div class="dash-panel" data-dash-panel="tunnel">
+                <div class="dash-panel-head">
+                  <div>
+                    <h3>Cloudflare Free Tunnel &amp; 24/7 OS Service</h3>
+                    <p>Expose your local gateway over HTTPS or keep it running at startup</p>
+                  </div>
+                  <span id="demo-tunnel-pill" class="pill-ok">Tunnel Running</span>
+                </div>
+
+                <div class="tunnel-grid">
+                  <div class="tunnel-box">
+                    <div class="card-subhead">
+                      <span>Cloudflare Quick Tunnel (--protocol http2)</span>
+                      <span class="mono-dim">No Account Needed</span>
+                    </div>
+                    <div class="tunnel-url-box">
+                      <code id="demo-tunnel-url">https://demo-gateway.trycloudflare.com/v1</code>
+                      <button type="button" class="mini-btn" data-copy-target="demo-tunnel-url">Copy</button>
+                    </div>
+                    <p class="box-note">Uses TCP/TLS HTTP/2 fallback to bypass strict ISP UDP QUIC blocks reliably.</p>
+                    <div class="tunnel-actions">
+                      <button type="button" id="demo-tunnel-toggle" class="btn btn-secondary btn-xs">Stop Tunnel (Demo)</button>
+                      <span class="mono-dim" id="demo-tunnel-status-text">Forwarding &rarr; 127.0.0.1:8000</span>
+                    </div>
+                  </div>
+
+                  <div class="tunnel-box">
+                    <div class="card-subhead">
+                      <span>Cross-OS 24/7 Background Service</span>
+                      <span class="mono-dim">Auto-Detected</span>
+                    </div>
+                    <ul class="os-service-list">
+                      <li>
+                        <strong>Windows</strong>
+                        <span>Task Scheduler (<code>install-windows-service.ps1</code>)</span>
+                      </li>
+                      <li>
+                        <strong>Linux</strong>
+                        <span>systemd --user (<code>install-systemd.sh</code>)</span>
+                      </li>
+                      <li>
+                        <strong>macOS</strong>
+                        <span>launchd LaunchAgent (<code>com.kikik27.agyrouter</code>)</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 4: Playground -->
+              <div class="dash-panel" data-dash-panel="playground">
+                <div class="dash-panel-head">
+                  <div>
+                    <h3>Markdown Chat Playground</h3>
+                    <p>Test local models with system prompts, streaming SSE, and code block copy</p>
+                  </div>
+                  <div class="prompt-chips">
+                    <button type="button" class="chip-btn active" data-pg-sample="python">Python SDK</button>
+                    <button type="button" class="chip-btn" data-pg-sample="delta">Delta-Turn Info</button>
+                  </div>
+                </div>
+
+                <div class="pg-thread">
+                  <div class="pg-msg pg-user">
+                    <span class="pg-role">USER</span>
+                    <div id="pg-user-text">Show a minimal OpenAI Python call targeting AGYRouter.</div>
+                  </div>
+                  <div class="pg-msg pg-assistant">
+                    <span class="pg-role">ASSISTANT &middot; gemini-3.8-flash-high</span>
+                    <div id="pg-assistant-body">
+                      <p>Point <code>base_url</code> to your local AGYRouter instance and pass your <code>sk-agy-...</code> key:</p>
+                      <div class="pg-code-block">
+                        <div class="pg-code-head">
+                          <span>python</span>
+                          <button type="button" class="mini-btn" data-copy-target="pg-code-snippet">Copy Code</button>
+                        </div>
+                        <pre><code id="pg-code-snippet">from openai import OpenAI
+
+client = OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="sk-agy-...")
+resp = client.chat.completions.create(
+    model="gemini-3.8-flash-high",
+    messages=[{"role": "user", "content": "Hello AGYRouter"}],
+    user="session-demo"
+)
+print(resp.choices[0].message.content)</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLI & Agentic SDK Integrations -->
+    <section id="features" class="section-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">CLI &amp; ECOSYSTEM</span>
+          <h2>Device-aware CLI. Zero framework rewrites.</h2>
+          <p>Run <code>agy-router setup</code> from your terminal or connect any OpenAI-compatible framework in two lines.</p>
+        </div>
+
+        <div class="dual-grid">
+          <!-- Left: CLI Terminal -->
+          <div class="code-card">
+            <div class="code-card-head">
+              <div class="tab-group" role="tablist">
+                <button type="button" class="code-tab active" data-cli-tab="doctor">agy-router doctor</button>
+                <button type="button" class="code-tab" data-cli-tab="setup">agy-router setup</button>
+              </div>
+              <span class="mono-dim">Terminal</span>
+            </div>
+            <pre class="terminal-pre"><code id="cli-preview-code">[AGYRouter Doctor]
+  OS / Arch       : Windows 11 (AMD64)
+  Service Backend : Windows Task Scheduler (user-level)
+  AGY CLI Binary  : FOUND -> agy (official CLI ready)
+  Cloudflare Bin  : INSTALLED -> bin/cloudflared.exe
+  SQLite WAL DB   : OK -> data/agy_proxy.db
+  API Keys        : 3 active keys (sk-agy-...)
+  Status          : Ready to serve on http://127.0.0.1:8000/v1</code></pre>
+          </div>
+
+          <!-- Right: SDK Snippets -->
+          <div class="code-card">
+            <div class="code-card-head">
+              <div class="tab-group" role="tablist">
+                <button type="button" class="code-tab active" data-sdk-tab="openai">Python OpenAI</button>
+                <button type="button" class="code-tab" data-sdk-tab="langchain">LangChain</button>
+                <button type="button" class="code-tab" data-sdk-tab="cursor">Cursor / Cline</button>
+                <button type="button" class="code-tab" data-sdk-tab="curl">cURL</button>
+              </div>
+              <button type="button" class="mini-btn" data-copy-target="sdk-preview-code">Copy</button>
+            </div>
+            <pre class="terminal-pre"><code id="sdk-preview-code">from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://127.0.0.1:8000/v1",
+    api_key="sk-agy-YOUR_KEY",
+)
+
+stream = client.chat.completions.create(
+    model="gpt-4o",  # routed to official AGY model
+    messages=[{"role": "user", "content": "Refactor this module"}],
+    stream=True,
+    user="agent-thread-01"
+)
+for chunk in stream:
+    print(chunk.choices[0].delta.content or "", end="", flush=True)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture & Core Pillars -->
+    <section id="architecture" class="section-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">ARCHITECTURE</span>
+          <h2>100% Terms-of-Service compliant by design.</h2>
+          <p>AGYRouter never scrapes cookies or spoofs headers. Every completion executes directly through the official <code>agy</code> CLI binary installed on your machine.</p>
+        </div>
+
+        <div class="arch-diagram-card">
+          <svg class="arch-svg" viewBox="0 0 960 220" role="img" aria-label="AGYRouter architecture diagram showing official agy CLI bridge and optional Cloudflare tunnel">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981" />
+              </marker>
+              <marker id="arrow-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#f38020" />
+              </marker>
+            </defs>
+
+            <!-- Node 1: Clients -->
+            <rect x="24" y="102" width="190" height="84" rx="10" fill="#12151c" stroke="#232938" />
+            <text x="119" y="135" text-anchor="middle" fill="#f1f5f9" font-size="13" font-weight="700" font-family="Plus Jakarta Sans, sans-serif">Agentic Apps &amp; IDEs</text>
+            <text x="119" y="156" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">LangChain / CrewAI / Cursor</text>
+
+            <!-- Node 2: Cloudflare Tunnel (optional top branch) -->
+            <rect x="280" y="18" width="210" height="58" rx="10" fill="#12151c" stroke="#3b2c1e" />
+            <text x="385" y="43" text-anchor="middle" fill="#fb923c" font-size="12" font-weight="700" font-family="Plus Jakarta Sans, sans-serif">Cloudflare Free Tunnel</text>
+            <text x="385" y="61" text-anchor="middle" fill="#94a3b8" font-size="10.5" font-family="JetBrains Mono, monospace">*.trycloudflare.com (HTTP/2)</text>
+
+            <!-- Node 3: AGYRouter -->
+            <rect x="275" y="102" width="220" height="84" rx="10" fill="#141a24" stroke="#10b981" stroke-width="1.5" />
+            <text x="385" y="135" text-anchor="middle" fill="#10b981" font-size="13.5" font-weight="700" font-family="Plus Jakarta Sans, sans-serif">AGYRouter Gateway</text>
+            <text x="385" y="156" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">:8000/v1 &middot; Auth &middot; SQLite WAL</text>
+
+            <!-- Node 4: Official CLI -->
+            <rect x="555" y="102" width="195" height="84" rx="10" fill="#12151c" stroke="#232938" />
+            <text x="652" y="135" text-anchor="middle" fill="#f1f5f9" font-size="13" font-weight="700" font-family="Plus Jakarta Sans, sans-serif">Official agy CLI</text>
+            <text x="652" y="156" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">stream-json &middot; delta-turn</text>
+
+            <!-- Node 5: Antigravity Cloud -->
+            <rect x="810" y="102" width="126" height="84" rx="10" fill="#12151c" stroke="#232938" />
+            <text x="873" y="135" text-anchor="middle" fill="#f1f5f9" font-size="13" font-weight="700" font-family="Plus Jakarta Sans, sans-serif">Antigravity</text>
+            <text x="873" y="156" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">Official Auth</text>
+
+            <!-- Connectors -->
+            <line x1="214" y1="144" x2="269" y2="144" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="495" y1="144" x2="549" y2="144" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="750" y1="144" x2="804" y2="144" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="385" y1="102" x2="385" y2="82" stroke="#f38020" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-muted)" />
+          </svg>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <h3>100% ToS-Compliant Bridge</h3>
+            <p>Invokes the official <code>agy -p ... --output-format stream-json</code> subprocess on your machine. No private API reverse-engineering or token theft.</p>
+          </div>
+          <div class="pillar-card">
+            <h3>Delta-Turn Token Savings</h3>
+            <p>Persists thread mappings in SQLite and sends only the latest user turn when continuing via <code>--conversation</code>, preventing duplicate history tokens.</p>
+          </div>
+          <div class="pillar-card">
+            <h3>Cloudflare Free Tunnel</h3>
+            <p>Auto-downloads the official <code>cloudflared</code> binary in one click and enforces <code>--protocol http2</code> for reliable Quick Tunnels and Named Tunnels.</p>
+          </div>
+          <div class="pillar-card">
+            <h3>30-Day Persistent Auth</h3>
+            <p>HMAC-SHA256 HttpOnly session cookies plus token fallback keep you signed in across browser restarts without repeated login prompts.</p>
+          </div>
+          <div class="pillar-card">
+            <h3>Cross-OS 24/7 Services</h3>
+            <p><code>agy-router service install</code> detects your OS automatically and configures Windows Task Scheduler, Linux <code>systemd --user</code>, or macOS <code>launchd</code>.</p>
+          </div>
+          <div class="pillar-card">
+            <h3>SQLite WAL Observability</h3>
+            <p>Inspect per-key requests, latency, and model routing live in the dashboard with zero external database dependencies.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 30-Second Quick Start -->
+    <section id="quickstart" class="section-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">GET STARTED</span>
+          <h2>Up and routing in 30 seconds.</h2>
+          <p>Requires Python 3.10+ and an authenticated Google Antigravity CLI (<code>agy models</code> works in your terminal).</p>
+        </div>
+
+        <div class="quickstart-card">
+          <div class="code-card-head">
+            <div class="tab-group" role="tablist">
+              <button type="button" class="code-tab active" data-qs-tab="windows">Windows</button>
+              <button type="button" class="code-tab" data-qs-tab="linux">Linux</button>
+              <button type="button" class="code-tab" data-qs-tab="macos">macOS</button>
+            </div>
+            <button type="button" class="mini-btn" data-copy-target="qs-code">Copy Commands</button>
+          </div>
+          <pre class="terminal-pre"><code id="qs-code">git clone https://github.com/kikik27/AGYRouter.git
+cd AGYRouter
+.\agy-router.bat setup
+.\agy-router.bat start --tunnel</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="brand">
+          <img src="logo.svg" alt="" width="24" height="24" />
+          <span class="brand-name">AGYRouter</span>
+        </div>
+        <p class="footer-copy">
+          Open Source under the <strong>MIT License</strong> &middot; Created by
+          <a href="https://github.com/kikik27" target="_blank" rel="noopener noreferrer">@kikik27</a>.
+          Issues and Pull Requests are welcome.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://github.com/kikik27/AGYRouter" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+        <a href="https://github.com/kikik27/AGYRouter/issues" target="_blank" rel="noopener noreferrer">Open Issue</a>
+        <a href="https://github.com/kikik27/AGYRouter/pulls" target="_blank" rel="noopener noreferrer">Pull Request</a>
+        <a href="https://github.com/kikik27/AGYRouter/releases" target="_blank" rel="noopener noreferrer">Releases</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">Copied to clipboard</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
